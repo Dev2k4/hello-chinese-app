@@ -1,36 +1,68 @@
 import { Platform } from "react-native";
 
 export const Colors = {
-  primary: "#E53935",
-  primaryDark: "#C62828",
-  primaryLight: "#FF6F60",
-  secondary: "#FFD700",
-  secondaryDark: "#F9A825",
-  accent: "#FF6F00",
-  success: "#43A047",
-  successLight: "#E8F5E9",
-  error: "#E53935",
-  errorLight: "#FFEBEE",
-  warning: "#FB8C00",
-  warningLight: "#FFF3E0",
-  info: "#1E88E5",
-  infoLight: "#E3F2FD",
-  background: "#F5F5F5",
-  surface: "#FFFFFF",
-  surfaceAlt: "#FAFAFA",
-  textPrimary: "#1A1A1A",
-  textSecondary: "#6B7280",
-  textLight: "#9CA3AF",
-  border: "#E5E7EB",
-  borderLight: "#F3F4F6",
-  disabled: "#D1D5DB",
+  // Xianxia chủ đạo: xanh ngọc + vàng kim
+  primary: "#0F766E",
+  primaryDark: "#064E3B",
+  primaryLight: "#14B8A6",
+  secondary: "#D4A843",
+  secondaryDark: "#B8860B",
+  accent: "#F5D77A",
+
+  // Ngũ hành
+  wood: "#2E7D32",
+  fire: "#DC2626",
+  earth: "#8D6E63",
+  metal: "#B0BEC5",
+  water: "#0288D1",
+
+  cultivation: "#7C3AED",
+  cultivationLight: "#EDE9FE",
+
+  // Ngữ nghĩa
+  success: "#059669",
+  successLight: "#D1FAE5",
+  error: "#DC2626",
+  errorLight: "#FEE2E2",
+  warning: "#D97706",
+  warningLight: "#FEF3C7",
+  info: "#0288D1",
+  infoLight: "#E0F2FE",
+
+  // Nền + surface
+  background: "#F5F0E8",
+  surface: "#FFFAF0",
+  surfaceAlt: "#EFE6D8",
+  paperLight: "#FFF8E7",
+
+  // Text
+  textPrimary: "#2C1810",
+  textSecondary: "#6B5B4E",
+  textLight: "#A09283",
+
+  border: "#D4C5B0",
+  borderLight: "#E8DDD0",
+  disabled: "#D1C5B8",
   overlay: "rgba(0, 0, 0, 0.5)",
   overlayLight: "rgba(0, 0, 0, 0.3)",
-  streak: "#FF6B35",
-  xp: "#7C4DFF",
+
+  // Game stats
+  streak: "#DC2626",
+  xp: "#7C3AED",
+
   cardShadow: "rgba(0, 0, 0, 0.08)",
-  gradientStart: "#E53935",
-  gradientEnd: "#FF6F60",
+
+  // Gradient cũ (giữ để không break code cũ)
+  gradientStart: "#0F766E",
+  gradientEnd: "#14B8A6",
+
+  // Màu đặc biệt cho các nhân vật
+  boss: "#7F1D1D",
+  bossLight: "#FEE2E2",
+  rival: "#B91C1C",
+  sister: "#BE185D",
+  scholar: "#1E3A5F",
+  immortal: "#5B21B6",
 } as const;
 
 export const Spacing = {

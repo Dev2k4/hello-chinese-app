@@ -6,6 +6,7 @@ import { API_ROUTES } from "../constants/apiRoutes";
 import apiClient from "../services/apiClient";
 
 const TOKEN_KEY = "@hello_chinese_token";
+const PROLOGUE_KEY = "@hello_chinese_prologue";
 
 export interface UserProgress {
   totalXp: number;
@@ -22,6 +23,7 @@ interface UserState {
   settings: UserSettings | null;
   isLoading: boolean;
   hydrated: boolean;
+  hasSeenPrologue: boolean;
   setUser: (user: User) => void;
   setToken: (token: string) => void;
   setProgress: (progress: UserProgress) => void;
@@ -32,6 +34,7 @@ interface UserState {
   register: (email: string, username: string, password: string) => Promise<void>;
   fetchProfile: () => Promise<void>;
   hydrate: () => Promise<void>;
+  markPrologueSeen: () => Promise<void>;
 }
 
 export const useUserStore = create<UserState>((set, get) => ({
@@ -41,6 +44,7 @@ export const useUserStore = create<UserState>((set, get) => ({
   settings: null,
   isLoading: false,
   hydrated: false,
+  hasSeenPrologue: false,
 
   setUser: (user) => set({ user }),
   setToken: (token) => {
@@ -107,13 +111,19 @@ export const useUserStore = create<UserState>((set, get) => ({
     }
   },
 
+  markPrologueSeen: async () => {
+    await AsyncStorage.setItem(PROLOGUE_KEY, "true");
+    set({ hasSeenPrologue: true });
+  },
+
   hydrate: async () => {
     try {
       const token = await AsyncStorage.getItem(TOKEN_KEY);
+      const prologue = await AsyncStorage.getItem(PROLOGUE_KEY);
       if (token) {
-        set({ token, hydrated: true });
+        set({ token, hydrated: true, hasSeenPrologue: prologue === "true" });
       } else {
-        set({ hydrated: true });
+        set({ hydrated: true, hasSeenPrologue: prologue === "true" });
       }
     } catch {
       set({ hydrated: true });

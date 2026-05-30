@@ -6,8 +6,8 @@ export function calculateProgressFromCatalog(
   levelId: number,
   catalog: ContentCatalogIndex | null
 ): HskProgress {
-  const level = catalog?.levels.find((l) => l.id === levelId);
-  const lessons = catalog?.lessons.filter((l) => l.levelId === levelId) || [];
+  const level = catalog?.levels?.find((l) => l.id === levelId);
+  const lessons = catalog?.lessons?.filter((l) => l.levelId === levelId) || [];
 
   if (!level) {
     return {
