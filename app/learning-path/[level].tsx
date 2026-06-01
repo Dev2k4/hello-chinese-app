@@ -3,13 +3,12 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { router, useLocalSearchParams, Stack } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
-import { Colors, Spacing, Typography, BorderRadius, Shadows } from "../../src/constants/theme";
+import { Colors, Spacing, Typography, BorderRadius } from "../../src/constants/theme";
 import { Card, Button, ProgressBar, FadeIn, StaggerList, MaterialIcon, IonIcon } from "../../src/components/common";
 import { useHskStore } from "../../src/store/useHskStore";
 import { useUserStore } from "../../src/store/useUserStore";
 import { useContentCatalog, useLearningPathByCode } from "../../src/hooks/useContent";
 import { calculateProgressFromCatalog } from "../../src/utils/contentProgress";
-import { getTrackLabel } from "../../src/types/user.types";
 
 export default function HskLevelScreen() {
   const { level, track } = useLocalSearchParams<{ level: string; track?: string }>();
@@ -20,11 +19,18 @@ export default function HskLevelScreen() {
   const lessonProgress = useHskStore((s) => s.lessonProgress);
   const { data: catalog, loading, error } = useContentCatalog();
   const { path: learningPath } = useLearningPathByCode(pathCode);
-  const hskLevel = catalog?.levels.find((l) => l.id === levelNum) || null;
+
+  const hskLevel = useMemo(() => {
+    if (!catalog) return null;
+    return catalog.levels.find((l) => l.level === levelNum) || null;
+  }, [catalog, levelNum]);
+
   const progress = useMemo(
     () => calculateProgressFromCatalog(lessonProgress, levelNum, catalog || null),
     [lessonProgress, levelNum, catalog]
   );
+
+  const units = hskLevel?.units || [];
 
   if (!hskLevel && !loading) {
     return (
@@ -48,6 +54,7 @@ export default function HskLevelScreen() {
         <LinearGradient colors={[Colors.gradientStart, Colors.gradientEnd]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.heroSection}>
           <FadeIn>
             <View style={styles.heroContent}>
+              <Text style={styles.heroEmoji}>🐱🐉</Text>
               <Text style={styles.heroTitle}>{pathName}</Text>
               <Text style={styles.heroDesc}>{pathDesc}</Text>
             </View>
@@ -66,7 +73,7 @@ export default function HskLevelScreen() {
           {error && (
             <FadeIn delay={60}>
               <Card style={styles.noticeCard}>
-                <Text style={styles.noticeText}>Khong the tai du lieu. Hay kiem tra content URL.</Text>
+                <Text style={styles.noticeText}>Khong the tai du lieu.</Text>
               </Card>
             </FadeIn>
           )}
@@ -95,14 +102,14 @@ export default function HskLevelScreen() {
           )}
 
           <StaggerList baseDelay={150} staggerMs={80}>
-            {(catalog?.topics.filter((t) => t.levelId === levelNum) || []).map((topic) => {
-              const lessonList = (catalog?.lessons || []).filter((l) => l.topicId === topic.id);
+            {units.map((topic, idx) => {
+              const lessonList = topic.lessons || [];
               const unitProgress = lessonList.filter((l) => lessonProgress[l.id]).length;
               return (
                 <Card key={topic.id} style={styles.unitCard}>
                   <View style={styles.unitHeader}>
                     <View style={styles.unitBadge}>
-                      <Text style={styles.unitBadgeText}>{topic.order}</Text>
+                      <Text style={styles.unitBadgeText}>{idx + 1}</Text>
                     </View>
                     <View style={styles.unitInfo}>
                       <Text style={styles.unitTitle}>{topic.title}</Text>
@@ -150,6 +157,7 @@ const styles = StyleSheet.create({
   scrollContent: { paddingBottom: Spacing.xxl },
   heroSection: { paddingHorizontal: Spacing.lg, paddingVertical: Spacing.xl, borderBottomLeftRadius: BorderRadius.xxl, borderBottomRightRadius: BorderRadius.xxl },
   heroContent: { gap: Spacing.xs },
+  heroEmoji: { fontSize: 48, marginBottom: 4 },
   heroTitle: { ...Typography.h1, color: "#fff" },
   heroDesc: { ...Typography.bodySmall, color: "rgba(255,255,255,0.85)" },
   bodyContent: { paddingHorizontal: Spacing.lg, marginTop: Spacing.lg, gap: Spacing.md },

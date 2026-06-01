@@ -2,9 +2,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   ContentCatalogIndex,
   ContentLessonBundle,
-  ContentLessonMeta,
-  ContentLevel,
-  ContentTopic,
 } from "../types/content.types";
 
 const CONTENT_BASE_URL = process.env.EXPO_PUBLIC_CONTENT_URL || "";
@@ -67,26 +64,6 @@ export async function getCatalogIndex(): Promise<ContentCatalogIndex> {
   return catalog;
 }
 
-export async function getLevels(): Promise<ContentLevel[]> {
-  const catalog = await getCatalogIndex();
-  return catalog.levels;
-}
-
-export async function getLevel(levelId: number): Promise<ContentLevel | null> {
-  const catalog = await getCatalogIndex();
-  return catalog.levels.find((l) => l.id === levelId) || null;
-}
-
-export async function getTopicsByLevel(levelId: number): Promise<ContentTopic[]> {
-  const catalog = await getCatalogIndex();
-  return catalog.topics.filter((t) => t.levelId === levelId);
-}
-
-export async function getLessonsByTopic(topicId: string): Promise<ContentLessonMeta[]> {
-  const catalog = await getCatalogIndex();
-  return catalog.lessons.filter((l) => l.topicId === topicId);
-}
-
 export async function getLessonBundle(lessonId: string): Promise<ContentLessonBundle> {
   const key = `${CACHE_PREFIX}lesson:${lessonId}`;
   const cached = await getCached<ContentLessonBundle>(key);
@@ -95,16 +72,6 @@ export async function getLessonBundle(lessonId: string): Promise<ContentLessonBu
   const bundle = await fetchJson<ContentLessonBundle>(`/lessons/${lessonId}.json`);
   await setCached(key, bundle);
   return bundle;
-}
-
-export async function getMockTestByLevel(levelId: number) {
-  const key = `${CACHE_PREFIX}mock-test:${levelId}`;
-  const cached = await getCached<unknown>(key);
-  if (cached) return cached;
-
-  const test = await fetchJson(`/mock-tests/${levelId}.json`);
-  await setCached(key, test);
-  return test;
 }
 
 export async function clearContentCache() {

@@ -1,17 +1,15 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
-import { Colors, Spacing, Typography, BorderRadius, Shadows } from "../../src/constants/theme";
+import { Colors, Spacing, Typography, BorderRadius } from "../../src/constants/theme";
 import { Card, Button, ProgressBar, FadeIn, ScaleIn, StaggerList, MaterialIcon, IonIcon } from "../../src/components/common";
 import { Flashcard, QuizOptions } from "../../src/components/lesson";
 import { useHskStore } from "../../src/store/useHskStore";
 import { useUserStore } from "../../src/store/useUserStore";
 import { ContentGrammarPoint, ContentVocabulary } from "../../src/types";
 import { useLessonBundle } from "../../src/hooks/useContent";
-import { useTierStore, REALM1_TIER_LESSONS } from "../../src/store/useTierStore";
-import TierContextBar from "../../src/components/story/TierContextBar";
 
 type LessonTab = "vocab" | "grammar" | "practice";
 
@@ -36,28 +34,6 @@ export default function LessonScreen() {
   const lessonProgress = useHskStore((s) => s.lessonProgress);
   const updateXp = useUserStore((s) => s.updateXp);
   const { data, loading, error } = useLessonBundle(id || null);
-
-  const currentRealm = useTierStore((s) => s.currentRealm);
-  const currentTier = useTierStore((s) => s.currentTier);
-  const completedTiers = useTierStore((s) => s.completedTiers);
-  const canStartBreakthrough = useTierStore((s) => s.canStartBreakthrough);
-
-  // Find which tier this lesson belongs to (using URL param `id`)
-  const lessonTier = useMemo(() => {
-    if (!id) return 0;
-    for (let t = 1; t <= 9; t++) {
-      const ids = REALM1_TIER_LESSONS[t] ?? [];
-      if (ids.includes(id)) return t;
-    }
-    return 0;
-  }, [id]);
-
-  // After lesson, check if breakthrough is available
-  const breakthroughAvailable = useMemo(() => {
-    if (lessonTier === 0) return false;
-    const completedIds = Object.keys(lessonProgress);
-    return canStartBreakthrough(currentRealm, currentTier, completedIds);
-  }, [lessonTier, currentTier, lessonProgress, currentRealm, canStartBreakthrough]);
 
   if (loading) {
     return (
@@ -154,21 +130,6 @@ export default function LessonScreen() {
             </Card>
           </FadeIn>
 
-          {breakthroughAvailable && (
-            <FadeIn delay={200}>
-              <Card style={styles.breakthroughCard}>
-                <Text style={styles.breakthroughIcon}>⚡</Text>
-                <Text style={styles.breakthroughTitle}>Đủ linh lực để đột phá!</Text>
-                <Text style={styles.breakthroughDesc}>Tầng {currentTier}/9 — thử thách bản thân ngay?</Text>
-                <Button
-                  title="Đột Phá Ngay"
-                  onPress={() => router.push(`/tier-breakthrough/${currentTier}?realmId=${currentRealm}&tierId=${currentTier}`)}
-                  variant="gradient"
-                  size="lg"
-                />
-              </Card>
-            </FadeIn>
-          )}
           <FadeIn delay={250}>
             <View style={styles.resultActions}>
               <Button title="Học tiếp" onPress={() => router.back()} variant="outline" size="lg" icon={<IonIcon name="arrow-forward" size="md" color={Colors.primary} />} />
@@ -183,9 +144,6 @@ export default function LessonScreen() {
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
       <View style={styles.content}>
-        <View style={styles.tierBarWrap}>
-          <TierContextBar realmId={currentRealm} currentTier={currentTier} completedTiers={completedTiers} compact />
-        </View>
         <LinearGradient colors={[Colors.gradientStart, Colors.gradientEnd]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.tabBar}>
           {tabs.map((tab) => {
             const accessible = canAccess(tab);
@@ -322,12 +280,4 @@ const styles = StyleSheet.create({
   xpBadge: { flexDirection: "row", alignItems: "center", gap: Spacing.xs, backgroundColor: Colors.xp, paddingHorizontal: Spacing.md, paddingVertical: Spacing.xs, borderRadius: BorderRadius.full },
   xpText: { ...Typography.bodyBold, color: "#fff", fontSize: 14 },
   resultActions: { width: "100%", gap: Spacing.sm, marginTop: Spacing.lg },
-  tierBarWrap: { paddingHorizontal: Spacing.md, paddingTop: Spacing.xs },
-  breakthroughCard: {
-    width: "100%", alignItems: "center", padding: Spacing.md, gap: Spacing.sm,
-    borderWidth: 1, borderColor: Colors.secondary, borderStyle: "dashed",
-  },
-  breakthroughIcon: { fontSize: 32 },
-  breakthroughTitle: { ...Typography.h3, color: Colors.secondary },
-  breakthroughDesc: { ...Typography.bodySmall, color: Colors.textSecondary, textAlign: "center" },
 });

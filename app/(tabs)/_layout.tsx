@@ -6,7 +6,6 @@ import { MaterialIcon, IonIcon } from "../../src/components/common";
 const tabConfig = {
   index: { label: "Học tập", icon: (focused: boolean) => <MaterialIcon name="home" size="md" color={focused ? Colors.primary : Colors.textLight} /> },
   review: { label: "Ôn tập", icon: (focused: boolean) => <MaterialIcon name="autorenew" size="md" color={focused ? Colors.primary : Colors.textLight} /> },
-  "mock-test": { label: "Thi thử", icon: (focused: boolean) => <MaterialIcon name="quiz" size="md" color={focused ? Colors.primary : Colors.textLight} /> },
   profile: { label: "Cá nhân", icon: (focused: boolean) => <IonIcon name={focused ? "person-circle" : "person-circle-outline"} size="md" color={focused ? Colors.primary : Colors.textLight} /> },
 };
 

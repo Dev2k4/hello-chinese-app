@@ -8,13 +8,11 @@ import {
   GrammarList,
   VocabularySearchResult,
 } from "../types/content.types";
-import { MockTest } from "../types";
 import { API_ROUTES } from "../constants/apiRoutes";
 import apiClient from "../services/apiClient";
 import {
   getCatalogIndex as getCatalogLocal,
   getLessonBundle as getLessonLocal,
-  getMockTestByLevel as getMockTestLocal,
 } from "../data/contentRepository";
 
 async function fetchCatalog(): Promise<ContentCatalogIndex> {
@@ -36,18 +34,6 @@ async function fetchLesson(lessonId: string): Promise<ContentLessonBundle> {
     throw new Error("empty");
   } catch {
     return getLessonLocal(lessonId);
-  }
-}
-
-async function fetchMockTest(levelId: number): Promise<MockTest> {
-  try {
-    const { data } = await apiClient.get(
-      API_ROUTES.CONTENT.MOCK_TEST(String(levelId)),
-    );
-    if (data && data.sections) return data;
-    throw new Error("empty");
-  } catch {
-    return getMockTestLocal(levelId) as Promise<MockTest>;
   }
 }
 
@@ -90,26 +76,6 @@ export function useLessonBundle(lessonId: string | null) {
       return fetchLesson(lessonId);
     },
     enabled: !!lessonId,
-    staleTime: 1000 * 60 * 10,
-    gcTime: 1000 * 60 * 60,
-  });
-
-  return {
-    data: query.data ?? null,
-    loading: query.isLoading,
-    error: query.error ? query.error.message : null,
-    refresh: query.refetch,
-  };
-}
-
-export function useMockTest(levelId: number | null) {
-  const query = useQuery<MockTest, Error>({
-    queryKey: ["content", "mock-test", levelId],
-    queryFn: () => {
-      if (!levelId) throw new Error("Missing levelId");
-      return fetchMockTest(levelId);
-    },
-    enabled: !!levelId,
     staleTime: 1000 * 60 * 10,
     gcTime: 1000 * 60 * 60,
   });

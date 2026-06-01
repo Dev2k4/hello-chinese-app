@@ -4,40 +4,40 @@ export interface ContentCatalogIndex {
   version: string;
   language: ContentLanguage;
   levels: ContentLevel[];
-  topics: ContentTopic[];
-  lessons: ContentLessonMeta[];
+  topics?: ContentTopic[];
+  lessons?: ContentLessonMeta[];
 }
 
 export interface ContentLevel {
-  id: number;
+  id: string;
   level: number;
   name: string;
   description: string;
-  order: number;
   totalWords: number;
   totalGrammar: number;
+  totalLessons: number;
   units: ContentTopic[];
-  translations?: Record<string, any>;
 }
 
 export interface ContentTopic {
   id: string;
-  levelId: number;
   title: string;
   description: string;
-  order: number;
-  lessonIds: string[];
+  lessons: ContentLessonMeta[];
   translations?: Record<string, any>;
 }
 
 export interface ContentLessonMeta {
   id: string;
-  levelId: number;
-  topicId: string;
+  unitId?: string;
+  levelId?: string;
+  topicId?: string;
   title: string;
   description: string;
   order: number;
-  type: "vocab" | "grammar" | "mixed" | "review";
+  type: string;
+  estimatedMinutes?: number;
+  xpReward?: number;
   vocabularyCount?: number;
   grammarCount?: number;
   questionCount?: number;
@@ -53,7 +53,7 @@ export interface ContentLessonBundle {
 
 export interface ContentVocabulary {
   id: string;
-  language: ContentLanguage;
+  language?: ContentLanguage;
   hanzi: string;
   pinyin: string;
   meaning: string;
@@ -64,7 +64,7 @@ export interface ContentVocabulary {
   exampleAudioUrl?: string;
   strokeSvg?: string;
   strokeData?: string;
-  levelId: number;
+  levelId?: number;
   wordClass?: string;
   translations?: Record<string, string>;
   wordClassAll?: Record<string, string>;
@@ -73,7 +73,7 @@ export interface ContentVocabulary {
 
 export interface ContentGrammarPoint {
   id: string;
-  levelId: number;
+  levelId?: number;
   title: string;
   explanation: string;
   structure: string;

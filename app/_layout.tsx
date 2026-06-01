@@ -21,7 +21,6 @@ export default function RootLayout() {
           <Stack.Screen name="index" />
           <Stack.Screen name="auth/index" options={{ animation: "fade" }} />
           <Stack.Screen name="onboarding/index" />
-          <Stack.Screen name="placement-test/index" />
           <Stack.Screen
             name="learning-path/[level]"
             options={{ animation: "slide_from_bottom" }}

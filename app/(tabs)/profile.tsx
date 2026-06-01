@@ -39,10 +39,10 @@ export default function ProfileScreen() {
   const currentLevel = settings?.learningPath ? parseInt(settings.learningPath.split("-")[1], 10) : 1;
 
   const statCards = [
-    { icon: <MaterialIcon name="spellcheck" size="md" color="#fff" />, label: "Từ đã học", value: totalLearned, color: Colors.info, bgColor: Colors.infoLight },
-    { icon: <MaterialIcon name="menu-book" size="md" color="#fff" />, label: "Bài học", value: totalLessonsDone, color: Colors.primary, bgColor: "#FFEBEE" },
-    { icon: <MaterialIcon name="autorenew" size="md" color="#fff" />, label: "Đã ôn tập", value: reviewedCount, color: Colors.accent, bgColor: Colors.warningLight },
-    { icon: <MaterialIcon name="layers" size="md" color="#fff" />, label: "SRS", value: srsItems.length, color: Colors.xp, bgColor: "#F3E5F5" },
+    { icon: <MaterialIcon name="spellcheck" size="md" color="#fff" />, label: "Từ đã học", value: totalLearned, color: Colors.success, bgColor: Colors.successLight },
+    { icon: <MaterialIcon name="menu-book" size="md" color="#fff" />, label: "Bài học", value: totalLessonsDone, color: Colors.primary, bgColor: Colors.surfaceAlt },
+    { icon: <MaterialIcon name="autorenew" size="md" color="#fff" />, label: "Đã ôn tập", value: reviewedCount, color: Colors.secondary, bgColor: "#FEF9C3" },
+    { icon: <MaterialIcon name="layers" size="md" color="#fff" />, label: "SRS", value: srsItems.length, color: Colors.accent, bgColor: Colors.errorLight },
   ];
 
   return (
@@ -131,7 +131,7 @@ export default function ProfileScreen() {
                 {allProgress.map((p) => (
                   <View key={p.id} style={styles.hskRow}>
                     <View style={[styles.hskBadge, { backgroundColor: p.overallPercent > 0 ? Colors.primary : Colors.borderLight }]}>
-                      <Text style={[styles.hskBadgeText, { color: p.overallPercent > 0 ? "#fff" : Colors.textSecondary }]}>HSK {p.id}</Text>
+                      <Text style={[styles.hskBadgeText, { color: p.overallPercent > 0 ? "#fff" : Colors.textSecondary }]}>HSK {p.level}</Text>
                     </View>
                     <View style={styles.hskBar}>
                       <ProgressBar progress={p.overallPercent / 100} color={p.overallPercent > 0 ? Colors.primary : Colors.border} height={8} />

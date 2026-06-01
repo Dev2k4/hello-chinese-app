@@ -27,8 +27,6 @@ export const API_ROUTES = {
   CONTENT: {
     CATALOG: `${API_BASE_URL}/api/content/catalog`,
     LESSON: (id: string) => `${API_BASE_URL}/api/content/lessons/${id}`,
-    PLACEMENT_TEST: `${API_BASE_URL}/api/content/placement-test`,
-    MOCK_TEST: (levelId: string) => `${API_BASE_URL}/api/content/mock-tests/${levelId}`,
     PATHS: `${API_BASE_URL}/api/content/paths`,
     PATH_BY_CODE: (code: string) => `${API_BASE_URL}/api/content/paths/${code}`,
     VOCABULARY_BY_LEVEL: (levelId: string, page = 1, limit = 50) =>

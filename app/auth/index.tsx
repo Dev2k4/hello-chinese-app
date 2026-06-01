@@ -8,11 +8,12 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-  ActivityIndicator,
 } from "react-native";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Colors, Typography, Spacing } from "../../src/constants/theme";
+import { LinearGradient } from "expo-linear-gradient";
+import { Colors, Typography, Spacing, BorderRadius } from "../../src/constants/theme";
+import { Button } from "../../src/components/common";
 import { useUserStore } from "../../src/store/useUserStore";
 
 export default function AuthScreen() {
@@ -49,19 +50,23 @@ export default function AuthScreen() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.inner}
       >
-        <Text style={styles.title}>
-          {mode === "login" ? "Đăng nhập" : "Tạo tài khoản"}
-        </Text>
-        <Text style={styles.subtitle}>Hello Chinese</Text>
+        <LinearGradient
+          colors={[Colors.primaryDark, Colors.primary]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.hero}
+        >
+          <Text style={styles.emoji}>🐱🐉</Text>
+          <Text style={styles.title}>Chinese4VN</Text>
+          <Text style={styles.subtitle}>Học tiếng Trung cùng Mèo Long</Text>
+        </LinearGradient>
 
         <View style={styles.tabs}>
           <TouchableOpacity
             style={[styles.tab, mode === "login" && styles.tabActive]}
             onPress={() => setMode("login")}
           >
-            <Text
-              style={[styles.tabText, mode === "login" && styles.tabTextActive]}
-            >
+            <Text style={[styles.tabText, mode === "login" && styles.tabTextActive]}>
               Đăng nhập
             </Text>
           </TouchableOpacity>
@@ -69,12 +74,7 @@ export default function AuthScreen() {
             style={[styles.tab, mode === "register" && styles.tabActive]}
             onPress={() => setMode("register")}
           >
-            <Text
-              style={[
-                styles.tabText,
-                mode === "register" && styles.tabTextActive,
-              ]}
-            >
+            <Text style={[styles.tabText, mode === "register" && styles.tabTextActive]}>
               Đăng ký
             </Text>
           </TouchableOpacity>
@@ -107,19 +107,13 @@ export default function AuthScreen() {
           secureTextEntry
         />
 
-        <TouchableOpacity
-          style={styles.button}
+        <Button
+          title={mode === "login" ? "Đăng nhập" : "Đăng ký"}
           onPress={handleSubmit}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <ActivityIndicator color="#fff" />
-          ) : (
-            <Text style={styles.buttonText}>
-              {mode === "login" ? "Đăng nhập" : "Đăng ký"}
-            </Text>
-          )}
-        </TouchableOpacity>
+          loading={isLoading}
+          variant="gradient"
+          size="lg"
+        />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -134,30 +128,49 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: Spacing.xl,
     justifyContent: "center",
+    gap: Spacing.md,
+  },
+  hero: {
+    alignItems: "center",
+    paddingVertical: Spacing.xxl,
+    borderRadius: BorderRadius.xxl,
+    marginBottom: Spacing.md,
+  },
+  emoji: {
+    fontSize: 48,
+    marginBottom: Spacing.sm,
   },
   title: {
     ...Typography.h1,
+    color: "#fff",
     textAlign: "center",
-    marginBottom: 8,
   },
   subtitle: {
-    ...Typography.body,
-    color: Colors.textLight,
+    ...Typography.bodySmall,
+    color: "rgba(255,255,255,0.8)",
     textAlign: "center",
-    marginBottom: 40,
+    marginTop: 4,
   },
   tabs: {
     flexDirection: "row",
-    marginBottom: 32,
-    borderRadius: 12,
+    borderRadius: BorderRadius.md,
     backgroundColor: Colors.surface,
     padding: 4,
+    ...Platform.select({
+      ios: {
+        shadowColor: Colors.cardShadow,
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 1,
+        shadowRadius: 3,
+      },
+      android: { elevation: 2 },
+    }),
   },
   tab: {
     flex: 1,
     paddingVertical: 12,
     alignItems: "center",
-    borderRadius: 10,
+    borderRadius: BorderRadius.md,
   },
   tabActive: {
     backgroundColor: Colors.primary,
@@ -172,23 +185,19 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: Colors.surface,
-    borderRadius: 12,
+    borderRadius: BorderRadius.md,
     paddingHorizontal: 16,
     paddingVertical: 14,
     fontSize: 16,
     color: Colors.textPrimary,
-    marginBottom: 16,
-  },
-  button: {
-    backgroundColor: Colors.primary,
-    borderRadius: 12,
-    paddingVertical: 16,
-    alignItems: "center",
-    marginTop: 8,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 17,
-    fontWeight: "600",
+    ...Platform.select({
+      ios: {
+        shadowColor: Colors.cardShadow,
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 1,
+        shadowRadius: 3,
+      },
+      android: { elevation: 2 },
+    }),
   },
 });

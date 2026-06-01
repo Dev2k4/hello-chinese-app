@@ -1,68 +1,42 @@
 import { Platform } from "react-native";
 
 export const Colors = {
-  // Xianxia chủ đạo: xanh ngọc + vàng kim
-  primary: "#0F766E",
-  primaryDark: "#064E3B",
-  primaryLight: "#14B8A6",
-  secondary: "#D4A843",
-  secondaryDark: "#B8860B",
-  accent: "#F5D77A",
+  // Mèo Long: cam mèo + đỏ vàng kim Tết
+  primary: "#F97316",
+  primaryDark: "#C2410C",
+  primaryLight: "#FB923C",
+  secondary: "#EAB308",
+  accent: "#F43F5E",
 
-  // Ngũ hành
-  wood: "#2E7D32",
-  fire: "#DC2626",
-  earth: "#8D6E63",
-  metal: "#B0BEC5",
-  water: "#0288D1",
-
-  cultivation: "#7C3AED",
-  cultivationLight: "#EDE9FE",
-
-  // Ngữ nghĩa
-  success: "#059669",
+  success: "#10B981",
   successLight: "#D1FAE5",
-  error: "#DC2626",
+  error: "#EF4444",
   errorLight: "#FEE2E2",
-  warning: "#D97706",
+  warning: "#F59E0B",
   warningLight: "#FEF3C7",
-  info: "#0288D1",
-  infoLight: "#E0F2FE",
+  info: "#3B82F6",
+  infoLight: "#DBEAFE",
 
-  // Nền + surface
-  background: "#F5F0E8",
-  surface: "#FFFAF0",
-  surfaceAlt: "#EFE6D8",
-  paperLight: "#FFF8E7",
+  background: "#FFF7ED",
+  surface: "#FFFFFF",
+  surfaceAlt: "#FFEDD5",
 
-  // Text
-  textPrimary: "#2C1810",
-  textSecondary: "#6B5B4E",
-  textLight: "#A09283",
+  textPrimary: "#1C1917",
+  textSecondary: "#57534E",
+  textLight: "#A8A29E",
 
-  border: "#D4C5B0",
-  borderLight: "#E8DDD0",
-  disabled: "#D1C5B8",
+  border: "#E7E5E4",
+  borderLight: "#F5F5F4",
+  disabled: "#D6D3D1",
   overlay: "rgba(0, 0, 0, 0.5)",
   overlayLight: "rgba(0, 0, 0, 0.3)",
 
-  // Game stats
-  streak: "#DC2626",
-  xp: "#7C3AED",
+  streak: "#EF4444",
+  xp: "#8B5CF6",
 
-  cardShadow: "rgba(0, 0, 0, 0.08)",
-
-  // Gradient cũ (giữ để không break code cũ)
-  gradientStart: "#0F766E",
-  gradientEnd: "#14B8A6",
-
-  // Màu đặc biệt cho các nhân vật
-  boss: "#7F1D1D",
-  bossLight: "#FEE2E2",
-  rival: "#B91C1C",
-  sister: "#BE185D",
-  scholar: "#1E3A5F",
-  immortal: "#5B21B6",
+  cardShadow: "rgba(0, 0, 0, 0.06)",
+  gradientStart: "#F97316",
+  gradientEnd: "#FB923C",
 } as const;
 
 export const Spacing = {

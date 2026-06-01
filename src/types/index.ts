@@ -9,12 +9,6 @@ export type {
   GrammarExample,
   QuestionType,
   LessonProgress,
-  PlacementTest,
-  PlacementQuestion,
-  PlacementTestResult,
-  MockTest,
-  MockTestSection,
-  MockTestResult,
   SRSItem,
   StudySession,
 } from "./lesson.types";

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Lesson, LessonProgress, PlacementTestResult, SRSItem } from "../types";
+import { Lesson, LessonProgress, SRSItem } from "../types";
 import { API_ROUTES } from "../constants/apiRoutes";
 import apiClient from "../services/apiClient";
 
@@ -8,12 +8,10 @@ interface HskState {
   currentLesson: Lesson | null;
   lessonProgress: Record<string, LessonProgress>;
   srsItems: SRSItem[];
-  placementResult: PlacementTestResult | null;
 
   setCurrentUnitId: (id: string | null) => void;
   setCurrentLesson: (lesson: Lesson | null) => void;
   completeLesson: (progress: LessonProgress) => void;
-  setPlacementResult: (result: PlacementTestResult | null) => void;
   addSrsItem: (item: SRSItem) => void;
   updateSrsItem: (id: string, item: Partial<SRSItem>) => void;
   submitLessonToBackend: (lessonId: string, score: number, timeSpentSeconds: number) => Promise<void>;
@@ -24,7 +22,6 @@ export const useHskStore = create<HskState>((set) => ({
   currentLesson: null,
   lessonProgress: {},
   srsItems: [],
-  placementResult: null,
 
   setCurrentUnitId: (id) => set({ currentUnitId: id }),
   setCurrentLesson: (lesson) => set({ currentLesson: lesson }),
@@ -37,8 +34,6 @@ export const useHskStore = create<HskState>((set) => ({
       },
     }));
   },
-
-  setPlacementResult: (result) => set({ placementResult: result }),
 
   addSrsItem: (item) =>
     set((state) => {

@@ -8,7 +8,6 @@ export default function AppEntry() {
   const token = useUserStore((s) => s.token);
   const settings = useUserStore((s) => s.settings);
   const hydrated = useUserStore((s) => s.hydrated);
-  const hasSeenPrologue = useUserStore((s) => s.hasSeenPrologue);
   const fetchProfile = useUserStore((s) => s.fetchProfile);
   const hydrate = useUserStore((s) => s.hydrate);
 
@@ -21,18 +20,14 @@ export default function AppEntry() {
     const init = async () => {
       if (token) {
         await fetchProfile();
-        if (!hasSeenPrologue) {
-          router.replace("/story/prologue");
-        } else {
-          router.replace(settings ? "/(tabs)" : "/onboarding");
-        }
+        router.replace(settings ? "/(tabs)" : "/onboarding");
       } else {
         router.replace("/auth");
       }
     };
     const timer = setTimeout(init, 100);
     return () => clearTimeout(timer);
-  }, [hydrated, token, settings, hasSeenPrologue]);
+  }, [hydrated, token, settings]);
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: Colors.primaryDark }}>

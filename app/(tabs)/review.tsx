@@ -57,8 +57,8 @@ export default function ReviewScreen() {
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <ScaleIn>
             <View style={styles.resultSection}>
-              <View style={styles.resultEmojiWrap}>
-                <IonIcon name="happy-outline" size="xxl" color={Colors.secondary} />
+              <View style={[styles.resultEmojiWrap, { backgroundColor: Colors.primary + "20" }]}>
+                <IonIcon name="happy-outline" size="xxl" color={Colors.primary} />
               </View>
               <Text style={styles.resultTitle}>Hoàn thành ôn tập!</Text>
               <Text style={styles.resultSub}>Hôm nay bạn đã ôn {result.total} từ</Text>
@@ -100,7 +100,7 @@ export default function ReviewScreen() {
           <LinearGradient colors={[Colors.gradientStart, Colors.gradientEnd]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.heroSection}>
             <FadeIn>
               <View style={styles.heroContent}>
-                <MaterialIcon name="autorenew" size="xl" color="#fff" />
+                <Text style={styles.heroEmoji}>🐱🐉</Text>
                 <Text style={styles.heroTitle}>Ôn tập</Text>
                 <Text style={styles.heroSub}>Spaced Repetition giúp bạn nhớ lâu hơn</Text>
               </View>
@@ -190,6 +190,7 @@ const styles = StyleSheet.create({
   scrollContent: { paddingBottom: Spacing.xxl },
   heroSection: { paddingHorizontal: Spacing.lg, paddingVertical: Spacing.xl, borderBottomLeftRadius: BorderRadius.xxl, borderBottomRightRadius: BorderRadius.xxl },
   heroContent: { alignItems: "center", gap: Spacing.sm },
+  heroEmoji: { fontSize: 48, marginBottom: 4 },
   heroTitle: { ...Typography.h1, color: "#fff" },
   heroSub: { ...Typography.bodySmall, color: "rgba(255,255,255,0.85)", textAlign: "center" },
   bodyContent: { paddingHorizontal: Spacing.lg, marginTop: Spacing.lg, gap: Spacing.md },
