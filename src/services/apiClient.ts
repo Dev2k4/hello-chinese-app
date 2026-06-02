@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL } from "../constants/apiRoutes";
-import { useUserStore } from "../store/useUserStore";
+import { getToken, getOnUnauthorized } from "./tokenHolder";
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -12,7 +12,7 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (config) => {
-    const token = useUserStore.getState().token;
+    const token = getToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -25,7 +25,8 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      useUserStore.getState().clearAuth();
+      const clearAuth = getOnUnauthorized();
+      clearAuth?.();
     }
     return Promise.reject(error);
   },

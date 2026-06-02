@@ -1,12 +1,12 @@
 import { Platform } from "react-native";
 
 export const Colors = {
-  // Mèo Long: cam mèo + đỏ vàng kim Tết
-  primary: "#F97316",
-  primaryDark: "#C2410C",
-  primaryLight: "#FB923C",
-  secondary: "#EAB308",
-  accent: "#F43F5E",
+  // Tone C: cam san hô + teal + nền kem
+  primary: "#FF7A59",
+  primaryDark: "#E85D3D",
+  primaryLight: "#FFA07D",
+  secondary: "#0F766E",
+  accent: "#14B8A6",
 
   success: "#10B981",
   successLight: "#D1FAE5",
@@ -17,26 +17,26 @@ export const Colors = {
   info: "#3B82F6",
   infoLight: "#DBEAFE",
 
-  background: "#FFF7ED",
+  background: "#FFF8F1",
   surface: "#FFFFFF",
-  surfaceAlt: "#FFEDD5",
+  surfaceAlt: "#FFF1E8",
 
-  textPrimary: "#1C1917",
-  textSecondary: "#57534E",
-  textLight: "#A8A29E",
+  textPrimary: "#24303F",
+  textSecondary: "#667085",
+  textLight: "#A8B0BC",
 
-  border: "#E7E5E4",
-  borderLight: "#F5F5F4",
-  disabled: "#D6D3D1",
+  border: "#E7D8D0",
+  borderLight: "#F4E8E2",
+  disabled: "#D6C8C0",
   overlay: "rgba(0, 0, 0, 0.5)",
   overlayLight: "rgba(0, 0, 0, 0.3)",
 
-  streak: "#EF4444",
-  xp: "#8B5CF6",
+  streak: "#FB923C",
+  xp: "#0EA5A4",
 
-  cardShadow: "rgba(0, 0, 0, 0.06)",
-  gradientStart: "#F97316",
-  gradientEnd: "#FB923C",
+  cardShadow: "rgba(15, 23, 42, 0.08)",
+  gradientStart: "#FF7A59",
+  gradientEnd: "#14B8A6",
 } as const;
 
 export const Spacing = {
