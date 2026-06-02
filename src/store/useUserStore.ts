@@ -4,7 +4,6 @@ import { User, UserSettings } from "../types/user.types";
 import { authService } from "../services/authService";
 import { API_ROUTES } from "../constants/apiRoutes";
 import apiClient from "../services/apiClient";
-import { setToken, setOnUnauthorized } from "../services/tokenHolder";
 
 const TOKEN_KEY = "@hello_chinese_token";
 
@@ -47,7 +46,6 @@ export const useUserStore = create<UserState>((set, get) => ({
   setToken: (token) => {
     AsyncStorage.setItem(TOKEN_KEY, token ?? "");
     set({ token });
-    setToken(token || null);
   },
   setProgress: (progress) => set({ progress }),
   setSettings: (settings) => set({ settings }),
@@ -62,7 +60,6 @@ export const useUserStore = create<UserState>((set, get) => ({
   clearAuth: () => {
     AsyncStorage.removeItem(TOKEN_KEY);
     set({ user: null, token: null, progress: null });
-    setToken(null);
   },
 
   login: async (email, password) => {
@@ -70,8 +67,6 @@ export const useUserStore = create<UserState>((set, get) => ({
     try {
       const res = await authService.login(email, password);
       await AsyncStorage.setItem(TOKEN_KEY, res.accessToken);
-      setToken(res.accessToken);
-      setOnUnauthorized(get().clearAuth);
       set({
         user: res.user,
         token: res.accessToken,
@@ -88,8 +83,6 @@ export const useUserStore = create<UserState>((set, get) => ({
     try {
       const res = await authService.register({ email, username, password });
       await AsyncStorage.setItem(TOKEN_KEY, res.accessToken);
-      setToken(res.accessToken);
-      setOnUnauthorized(get().clearAuth);
       set({
         user: res.user,
         token: res.accessToken,
@@ -118,8 +111,6 @@ export const useUserStore = create<UserState>((set, get) => ({
     try {
       const token = await AsyncStorage.getItem(TOKEN_KEY);
       if (token) {
-        setToken(token);
-        setOnUnauthorized(get().clearAuth);
         set({ token, hydrated: true });
       } else {
         set({ hydrated: true });
